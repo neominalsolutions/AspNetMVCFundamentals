@@ -1,0 +1,138 @@
+﻿
+
+
+@{
+  //ViewContext.RequestContext.RouteData["Controller"]
+  Layout = null;
+}
+
+@* razor view engine bir view motoru kullanırız. dinamik değerlere yani c# üzerinden gönderilen değerlere @ işareti ile bağlanıyouruz *@
+@* <% %> *@
+@* controller üzerinden bu tipte bir viewmodel gelecek tanımı yaptık *@
+@* 1. yöntem *@
+@*@model NetMVCApp.Models.HomeViewModel*@
+@* 2.yöntem *@
+@*@model Tuple<NetMVCApp.Models.HomeViewModel, NetMVCApp.Models.UserModel>*@
+
+@* 3.yöntem *@
+@model  HomeViewModel
+
+@* razor view engine özelliğini kullarak @{} işaretleri arasına birden fazla satır kod yazabilir. *@
+@{
+  int counter = 1;
+}
+
+@* /iletisim-bilgileri route isteği atınca view döndürmek zorundayız *@
+@* /iletim-bilgileri view içerisinde ben bir partial çağırma yapabilirim. *@
+@*{ Html.RenderPartial("_header", Model.UserModel); } *@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>Index</title>
+</head>
+<body>
+  <div>
+
+    <p>
+      Page Url:  @ViewBag.PageUrl
+    </p>
+
+    <h1>
+      @Model?.Title
+    </h1>
+    <p>
+      @Model?.Content
+    </p>
+    <span>
+      Sayac: @counter
+    </span>
+
+    <p>
+      ViewBag ile Veri taşıma @ViewBag.Message
+    </p>
+
+    <p>
+      Viewbag Success :@ViewBag.Success
+    </p>
+
+    <p>
+      ViewData:  @ViewData["Alert"]
+    </p>
+  </div>
+
+  <hr />
+
+  <h1>Employee Model</h1>
+
+  @* Employee Model *@
+  <ul>
+    @foreach (var emp in Model.Employees)
+    {
+
+      if (emp.Name != "Ali")
+      {
+        <li>@emp.Name</li>
+      }
+    }
+  </ul>
+
+  <hr />
+
+  <h1>User Model</h1>
+
+  @* User Model *@
+  <p>
+    UserName: @Model.UserModel.Name
+  </p>
+
+  <hr />
+
+
+  <h1>Home Model</h1>
+
+  @* Home Model *@
+  <div>
+    <h1>@Model.HomeModel.Title</h1>
+    <p>
+      @Model.HomeModel.Content
+    </p>
+
+  </div>
+
+
+  @*<p>
+      Tupple'dan gelen HomeViewModelTipi  @Model.Item1.Content
+      @Model.Item1.Title
+    </p>
+
+
+
+    <p>
+      Tuppledan gelen UserModel Tipi :@Model.Item2.Name
+    </p>*@
+
+
+
+  @* Names from ViewBag *@
+
+  <p>Names from ViewBag</p>
+
+  <ul>
+    @foreach (var name in ViewBag.Names)
+    {
+      <li>@name</li>
+    }
+
+  </ul>
+
+  @* normal view içerisinde istedeiğim view'in herhangi bir noktasında parçalı html çağırdım.  *@
+
+  @{ Html.RenderPartial("_header", Model.UserModel); }
+
+
+
+</body>
+</html>
